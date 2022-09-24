@@ -1,15 +1,15 @@
 import React from "react"
 import {Container, Navbar} from 'react-bootstrap';
-import CartWidget from './CartWidget'
+import ItemListContainer from './ItemListContainer'
 
+const SALUDO = 'Coderhousers'
 
 const NavBar = () => {
     return(
-        <Navbar bg="dark" variant="dark">
+        <Navbar bg="light" variant="light">
             <Container>
-                <Navbar.Brand href="#home">Home</Navbar.Brand>
-                <Navbar.Brand href="#tienda">Tienda</Navbar.Brand>
-                <Navbar.Brand href="#carrito"><CartWidget></CartWidget> Carrito</Navbar.Brand>
+                <a href="#home"><img src="https://raw.githubusercontent.com/Santiago-Musso/Coderhouse/main/images/logoheader.webp" alt="Logo Heladeria Trapani"></img></a>
+                <ItemListContainer saludo={SALUDO}></ItemListContainer>
             </Container>
         </Navbar>
     )
