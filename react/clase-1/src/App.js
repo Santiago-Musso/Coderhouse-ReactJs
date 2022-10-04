@@ -1,9 +1,18 @@
+import React from 'react';
 import './App.css';
-import NavBar from './components/NavBar';
+import NavBar from './components/Header/NavBar';
+import ItemListContainer from './components/Main/ItemListContainer'
 
 function App() {
+  const REGRET = 'Coderhousers'
+
   return (
-    <NavBar></NavBar>
+    <React.Fragment>
+      <NavBar regret={REGRET}></NavBar>
+      <main>
+        <ItemListContainer></ItemListContainer>
+      </main>
+    </React.Fragment>
   )
 }
 
