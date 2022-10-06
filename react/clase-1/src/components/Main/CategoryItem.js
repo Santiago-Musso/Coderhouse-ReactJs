@@ -1,9 +1,9 @@
 import React from "react";
-import { Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 const CategoryItem = ({categories}) => {
     return(
-        categories.map(category => <Button variant="light" key={category} id={category}>{category.toUpperCase()}</Button>)
+        categories.map(category => <Link key={category} to={`/category/${category}`} className="text-decoration-none m-1 text-dark">{category.toUpperCase()}</Link>)
     )
 }
 
