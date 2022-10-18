@@ -9,7 +9,7 @@ const NavBar = ({regret}) => {
             <Container>
                 <Link to="/"><img src="https://raw.githubusercontent.com/Santiago-Musso/Coderhouse/main/images/logoheader.webp" alt="Logo Heladeria Trapani"></img></Link>
                 <Col sm='8' className="text-center"><h6>Bienvenido {regret}!</h6></Col>
-                <Col><Navbar.Brand href="#carrito"><CartWidget></CartWidget> Carrito</Navbar.Brand></Col>  
+                <Col><Navbar.Brand><Link to='/cart' className="text-decoration-none text-dark"><CartWidget></CartWidget> Carrito</Link></Navbar.Brand></Col>  
             </Container>
         </Navbar>
     )

@@ -11,6 +11,7 @@ const ItemListContainer = () => {
     const {category} = useParams()
     const [items, setItems] = useState([])
     const [categories, setCategories] = useState([])
+    const [loader, setLoader] = useState(true)
 
     const handleSearchBar = (e) => {
         document.querySelectorAll('.card').forEach( product => {
@@ -23,7 +24,7 @@ const ItemListContainer = () => {
         return new Promise((resolve) => {
             setTimeout(() => {
                 resolve(productList)
-            }, 500)
+            }, 700)
         })
     }
 
@@ -31,19 +32,22 @@ const ItemListContainer = () => {
         getProducts().then(response => {
             category === undefined ? setItems(response) : setItems(response.filter(products => products.category === category))
             setCategories([...new Set(response.map(product => product.category))])
+            setLoader(false)
         })
+        return () => setLoader(true)
     }, [category])
 
-    if(items.length === 0 ) return <Spinner animation="border"/>
-
     return(
-        <Container>
-            <SearchBar onChangeEvent={handleSearchBar}></SearchBar>
-            <CategoryBar categories={categories}></CategoryBar>
-            <Row>
-                <ItemList products={items}></ItemList>
-            </Row>
-        </Container>
+        loader
+        ?   <Container style={{height: '80vh'}} className="d-flex justify-content-center" ><Spinner animation="border" className="m-auto"/></Container>
+        :   <Container>
+                <SearchBar onChangeEvent={handleSearchBar}></SearchBar>
+                <CategoryBar categories={categories}></CategoryBar>
+                <Row>
+                    <ItemList products={items}></ItemList>
+                </Row>
+            </Container>
+        
     )
 }
 

@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Button, Container, FormControl } from "react-bootstrap"
 
-const ItemCount = ({stock}) => {
+const ItemCount = ({stock,onClick}) => {
     const [amount, setAmount] = useState(0)
 
     const handleClick = (e) => {
@@ -13,10 +13,13 @@ const ItemCount = ({stock}) => {
     }
 
     return(
-        <Container className="d-flex w-25">
-            <Button className="btn-secondary" onClick={handleClick}>-</Button>
-            <FormControl type="number" className="text-center" disabled readOnly value={amount}></FormControl>
-            <Button className="btn-secondary" onClick={handleClick}>+</Button>
+        <Container className="d-flex flex-column align-items-center w-50">
+            <Container className="d-flex">
+                <Button className="btn-secondary" onClick={handleClick}>-</Button>
+                <FormControl type="number" className="text-center" disabled readOnly value={amount}></FormControl>
+                <Button className="btn-secondary" onClick={handleClick}>+</Button>
+            </Container>
+            <Button className="btn btn-secondary" onClick={onClick} amount={amount}>Añadir al carrito</Button>
         </Container>
     )
 }
