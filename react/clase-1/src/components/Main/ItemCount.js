@@ -1,16 +1,21 @@
-import { useState } from "react"
+import {  useEffect, useState } from "react"
 import { Button, Container, FormControl } from "react-bootstrap"
 
-const ItemCount = ({stock,onClick}) => {
-    const [amount, setAmount] = useState(0)
+const ItemCount = ({stock,onClick, initial=1}) => {
+
+    const [amount, setAmount] = useState(initial)
 
     const handleClick = (e) => {
-        if(e.target.innerText === '-' && amount > 0){
+        if(e.target.innerText === '-' && amount > 1){
             setAmount(lastAmount => lastAmount - 1)
         }else if (e.target.innerText === '+' && amount < stock){
             setAmount(lastAmount => lastAmount + 1)
         }
     }
+
+    useEffect(()=> {
+        setAmount(initial)
+    }, [initial])
 
     return(
         <Container className="d-flex flex-column align-items-center w-50">

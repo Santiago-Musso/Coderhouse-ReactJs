@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Spinner } from 'react-bootstrap';
 import ItemList from "./ItemList";
-import productList from "../../mockProducts"
 import CategoryBar from "./CategoryBar";
 import SearchBar from "./SearchBar";
 import {useParams} from 'react-router-dom'
+import {collection, getDocs} from  'firebase/firestore'
+import {db} from '../../services/firebaseConfig'
 
 
 const ItemListContainer = () => {
@@ -20,18 +21,19 @@ const ItemListContainer = () => {
         })
     }
 
-    const getProducts = () => {
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                resolve(productList)
-            }, 700)
-        })
-    }
-
     useEffect(() => {
-        getProducts().then(response => {
-            category === undefined ? setItems(response) : setItems(response.filter(products => products.category === category))
-            setCategories([...new Set(response.map(product => product.category))])
+        const collectionProduct = collection(db, 'products')
+
+        getDocs(collectionProduct)
+            .then(data => {
+            const products = data.docs.map( product => {
+                    return({
+                        id :product.id,
+                        ...product.data()
+                    })
+            })
+            category === undefined ? setItems(products) : setItems(products.filter(products => products.category === category))
+            setCategories([...new Set(products.map(product => product.category))])
             setLoader(false)
         })
         return () => setLoader(true)

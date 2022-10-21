@@ -1,10 +1,10 @@
 import React, { useContext } from "react"
-import { Button, Card, Container } from "react-bootstrap"
+import { Card, Container } from "react-bootstrap"
 import { CartContext } from "../../context/CartContext"
 import ItemCount from "./ItemCount"
 
 const ItemDetail = ({product}) => {
-    const {addToCart} = useContext(CartContext)
+    const {addToCart, getQuantityProduct} = useContext(CartContext)
 
     const imgStyle = {
         height: '400px',
@@ -25,7 +25,7 @@ const ItemDetail = ({product}) => {
                     <Card.Body>
                         <p>{product.description}</p>
                         ${product.price}
-                        <ItemCount stock={product.stock} onClick={handleClick}></ItemCount>
+                        <ItemCount stock={product.stock} onClick={handleClick} initial={getQuantityProduct(product.id)}></ItemCount>
                     </Card.Body>
                 </Container>
             </Card.Body>

@@ -23,13 +23,17 @@ const Provider = ({children}) => {
         }
     }
     const eraseProduct = (e) => {
-        const productToErase = Number(e.target.getAttribute('productid'))
+        const productToErase = e.target.getAttribute('productid')
         const newCart = cart.filter( prod => prod.id !== productToErase)
         setCart(newCart)
     }
+    const getQuantityProduct = (id) => {
+        const product = cart.find(product => product.id === id)
+        return product?.amount
+    }
 
     return (
-        <CartContext.Provider value={{cart, addToCart, eraseProduct}}>
+        <CartContext.Provider value={{cart, addToCart, eraseProduct, getQuantityProduct}}>
             {children}
         </CartContext.Provider>
     )
