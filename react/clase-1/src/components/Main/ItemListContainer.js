@@ -8,12 +8,11 @@ import { collection, getDocs, query, where } from 'firebase/firestore'
 import { db } from '../../services/firebaseConfig'
 
 const ItemListContainer = () => {
-  const { category } = useParams() // Lee el parametro
-  const [items, setItems] = useState([]) // Estado de todos los items
-  const [categories, setCategories] = useState([]) // Estado de las categorias agregadas dinamicamente
-  const [loader, setLoader] = useState(true) // Estado del loader
+  const { category } = useParams()
+  const [items, setItems] = useState([])
+  const [categories, setCategories] = useState([])
+  const [loader, setLoader] = useState(true)
 
-  // Al ir tecleando le agrega display-none a los productos que no coincidan con la busqueda
   const handleSearchBar = e => {
     document.querySelectorAll('.card').forEach(product => {
       const word = product.textContent.toLowerCase()
@@ -39,7 +38,6 @@ const ItemListContainer = () => {
         }
       })
       setItems(products)
-      // Saca el loader una vez que cargan todos los items
       setLoader(false)
     })
 
@@ -50,7 +48,7 @@ const ItemListContainer = () => {
       setCategories(categories)
     })
 
-    return () => setLoader(true) // Limpia el loader
+    return () => setLoader(true)
   }, [category])
 
   return loader

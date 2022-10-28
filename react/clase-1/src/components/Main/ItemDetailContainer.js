@@ -8,8 +8,8 @@ import { Container, Spinner } from 'react-bootstrap'
 import 'react-toastify/dist/ReactToastify.css'
 
 const ItemDetailContainer = () => {
-  const { id } = useParams() // ID de cada producto en la BDD
-  const [product, setProduct] = useState({}) // Estado del producto a mostrar
+  const { id } = useParams()
+  const [product, setProduct] = useState({})
   const [loader, setLoader] = useState(true)
 
   useEffect(() => {

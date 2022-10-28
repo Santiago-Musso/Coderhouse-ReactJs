@@ -82,9 +82,6 @@ const CheckoutForm = () => {
                 onChange={handleChanges}
                 name='email'
               />
-              <Form.Text className='text-muted'>
-                Nunca compartiremos tus datos
-              </Form.Text>
               <Form.Label>Repetir email</Form.Label>
               <Form.Control
                 type='email'

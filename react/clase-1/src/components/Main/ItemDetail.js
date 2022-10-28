@@ -12,7 +12,6 @@ const ItemDetail = ({ product }) => {
     width: '400px'
   }
 
-  // Setea en el carrito la cantidad y el producto leyendo el atributo amount del boton, dispara el toast
   const handleClick = e => {
     const amountSelected = Number(e.target.getAttribute('amount'))
     addToCart(product, amountSelected)
