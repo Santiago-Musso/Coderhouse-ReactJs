@@ -4,16 +4,16 @@ import ItemList from "./ItemList";
 import CategoryBar from "./CategoryBar";
 import SearchBar from "./SearchBar";
 import {useParams} from 'react-router-dom'
-import {collection, getDocs} from  'firebase/firestore'
+import {collection, getDocs, query, where} from  'firebase/firestore'
 import {db} from '../../services/firebaseConfig'
 
-
 const ItemListContainer = () => {
-    const {category} = useParams()
-    const [items, setItems] = useState([])
-    const [categories, setCategories] = useState([])
-    const [loader, setLoader] = useState(true)
+    const {category} = useParams() //Lee el parametro 
+    const [items, setItems] = useState([]) //Estado de todos los items
+    const [categories, setCategories] = useState([]) //Estado de las categorias agregadas dinamicamente
+    const [loader, setLoader] = useState(true) //Estado del loader
 
+    //Al ir tecleando le agrega display-none a los productos que no coincidan con la busqueda
     const handleSearchBar = (e) => {
         document.querySelectorAll('.card').forEach( product => {
             const word = product.textContent.toLowerCase()
@@ -23,8 +23,13 @@ const ItemListContainer = () => {
 
     useEffect(() => {
         const collectionProduct = collection(db, 'products')
+        const collectionCategories = collection(db, 'categories')
 
-        getDocs(collectionProduct)
+        const reference =  category 
+            ? query(collectionProduct, where('category', '==', category))
+            : collectionProduct
+
+        getDocs(reference)
             .then(data => {
             const products = data.docs.map( product => {
                     return({
@@ -32,11 +37,20 @@ const ItemListContainer = () => {
                         ...product.data()
                     })
             })
-            category === undefined ? setItems(products) : setItems(products.filter(products => products.category === category))
-            setCategories([...new Set(products.map(product => product.category))])
+            setItems(products)
+            //Saca el loader una vez que cargan todos los items
             setLoader(false)
         })
-        return () => setLoader(true)
+
+        getDocs(collectionCategories)
+            .then(data => {
+                const categories = data.docs.map( category => {
+                    return (category.data().name)
+                })
+                setCategories(categories)
+        })
+        
+        return () => setLoader(true) //Limpia el loader
     }, [category])
 
     return(

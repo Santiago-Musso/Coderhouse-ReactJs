@@ -1,12 +1,38 @@
-import React, {useContext} from "react"
+import CartListItem from "./CartListItem"
+import {Link} from 'react-router-dom'
+import { useContext } from "react"
 import { CartContext } from "../../context/CartContext"
-import CartItem from "./CartItem"
+import { Button } from "react-bootstrap"
 
 const Cart = () => {
-    const {cart, eraseProduct} = useContext(CartContext)
-    
+
+    const {cart, totalCartValue} = useContext(CartContext)
+
+    const containerStyle = {
+        textAlign : 'center',
+        display: 'flex',
+        flexDirection: 'column',
+        alignContent: 'center',
+        justifyContent: 'center',
+        height: '77.5vh'
+    }
     return (
-        cart.map(prod => <CartItem product={prod} key={prod.id} handleEvents={eraseProduct}></CartItem>)
+        cart.length === 0
+        ?
+            <div style={containerStyle}>
+                <h3>Todavia no hay productos en el carrito</h3>
+                <h3><Link className="text-decoration-none" to='/'>Click Aquí</Link> para agregar</h3>
+            </div>
+        :
+            <div>
+                <CartListItem></CartListItem>
+                <h3 className="text-end p-4">Total: ${totalCartValue()}</h3>
+                <Link to='/checkout'>
+                    <div className="position-relative">        
+                        <Button className="btn btn-primary position-absolute top-0 end-0 m-3">Checkout</Button>
+                    </div>
+                </Link>
+            </div>
     )
 }
 

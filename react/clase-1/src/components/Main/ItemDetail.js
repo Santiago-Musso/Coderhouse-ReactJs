@@ -2,6 +2,7 @@ import React, { useContext } from "react"
 import { Card, Container } from "react-bootstrap"
 import { CartContext } from "../../context/CartContext"
 import ItemCount from "./ItemCount"
+import { toast }from "react-toastify"
 
 const ItemDetail = ({product}) => {
     const {addToCart, getQuantityProduct} = useContext(CartContext)
@@ -11,9 +12,20 @@ const ItemDetail = ({product}) => {
         width: '400px'
     }
 
+    //Setea en el carrito la cantidad y el producto leyendo el atributo amount del boton, dispara el toast
     const handleClick = (e) => {
         const amountSelected = Number(e.target.getAttribute('amount'))
         addToCart(product,amountSelected)
+        toast.success('Producto agregado correctamente', {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            });
     }
 
     return(
