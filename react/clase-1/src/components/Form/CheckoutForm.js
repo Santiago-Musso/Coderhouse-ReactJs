@@ -42,7 +42,7 @@ const CheckoutForm = () => {
       .finally(setLoader(false))
   }
 
-  const handleChanges = e => {
+  const handleChangesInputs = e => {
     const changedValue = e.target.getAttribute('name')
 
     const userProps = {}
@@ -79,7 +79,7 @@ const CheckoutForm = () => {
               <Form.Control
                 type='email'
                 placeholder='Ingresar email'
-                onChange={handleChanges}
+                onChange={handleChangesInputs}
                 name='email'
               />
               <Form.Label>Repetir email</Form.Label>
@@ -96,7 +96,7 @@ const CheckoutForm = () => {
                 type='text'
                 placeholder='Nombre'
                 name='name'
-                onChange={handleChanges}
+                onChange={handleChangesInputs}
               />
             </Form.Group>
             <Form.Group className='mb-3' controlId='formBasicLastName'>
@@ -105,7 +105,7 @@ const CheckoutForm = () => {
                 type='text'
                 placeholder='Apellido'
                 name='lastName'
-                onChange={handleChanges}
+                onChange={handleChangesInputs}
               />
             </Form.Group>
             <Form.Group className='mb-3' controlId='formBasicPhoneNumber'>
@@ -114,7 +114,7 @@ const CheckoutForm = () => {
                 type='tel'
                 placeholder='Telefono'
                 name='phoneNumber'
-                onChange={handleChanges}
+                onChange={handleChangesInputs}
               />
             </Form.Group>
             <Button variant='primary' type='submit'>

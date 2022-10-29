@@ -8,6 +8,7 @@ import Provider from './context/CartContext'
 import Cart from './components/Cart/Cart'
 import Footer from './components/Footer/Footer'
 import CheckoutForm from './components/Form/CheckoutForm'
+import Admin from './components/Admin/Admin'
 
 function App () {
   const REGRET = 'Coderhousers'
@@ -22,6 +23,7 @@ function App () {
           <Route path='/item/:id' element={<ItemDetailContainer />} />
           <Route path='/cart' element={<Cart />} />
           <Route path='/checkout' element={<CheckoutForm />} />
+          <Route path='/admin' element={<Admin />} />
         </Routes>
         <Footer />
       </BrowserRouter>
