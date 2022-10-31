@@ -24,7 +24,6 @@ const ItemListContainer = () => {
 
   useEffect(() => {
     const collectionProduct = collection(db, 'products')
-    const collectionCategories = collection(db, 'categories')
 
     const reference = category
       ? query(collectionProduct, where('category', '==', category))
@@ -37,15 +36,9 @@ const ItemListContainer = () => {
           ...product.data()
         }
       })
+      if (category === undefined) setCategories([...new Set(products.map(product => product.category))])
       setItems(products)
       setLoader(false)
-    })
-
-    getDocs(collectionCategories).then(data => {
-      const categories = data.docs.map(category => {
-        return category.data().name
-      })
-      setCategories(categories)
     })
 
     return () => setLoader(true)
