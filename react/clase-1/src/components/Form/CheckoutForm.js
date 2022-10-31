@@ -8,6 +8,7 @@ import { db } from '../../services/firebaseConfig'
 const CheckoutForm = () => {
   const [user, setUser] = useState({})
   const [loader, setLoader] = useState(false)
+  const [errorEmail, setErrorEmail] = useState('')
 
   const containerStyle = {
     textAlign: 'center',
@@ -21,25 +22,29 @@ const CheckoutForm = () => {
   const { cart, totalCartValue, clearCart } = useContext(CartContext)
 
   const handleSumbit = e => {
-    setLoader(true)
     e.preventDefault()
 
-    const order = {
-      buyer: user,
-      items: cart,
-      total: totalCartValue(),
-      date: serverTimestamp()
+    if (user.email === user.emailRepeated) {
+      setLoader(true)
+      const order = {
+        buyer: user,
+        items: cart,
+        total: totalCartValue(),
+        date: serverTimestamp()
+      }
+
+      const ordersCollection = collection(db, 'orders')
+
+      addDoc(ordersCollection, order)
+        .then(result => {
+          clearCart()
+          console.log(order, result.id)
+        })
+        .catch(error => console.error(error))
+        .finally(setLoader(false))
+    } else {
+      setErrorEmail('border border-danger')
     }
-
-    const ordersCollection = collection(db, 'orders')
-
-    addDoc(ordersCollection, order)
-      .then(result => {
-        clearCart()
-        console.log(order, result.id)
-      })
-      .catch(error => console.error(error))
-      .finally(setLoader(false))
   }
 
   const handleChangesInputs = e => {
@@ -84,8 +89,10 @@ const CheckoutForm = () => {
               />
               <Form.Label>Repetir email</Form.Label>
               <Form.Control
+                className={errorEmail}
                 type='email'
                 placeholder='Repetir email'
+                onChange={handleChangesInputs}
                 name='emailRepeated'
               />
             </Form.Group>
