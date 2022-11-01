@@ -4,11 +4,19 @@ import { Form, Button, Container, Spinner } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
 import { db } from '../../services/firebaseConfig'
+import ShowOrderNumber from './ShowOrderNumber'
 
 const CheckoutForm = () => {
-  const [user, setUser] = useState({})
+  const [user, setUser] = useState({
+    name: '',
+    lastName: '',
+    email: '',
+    emailRepeated: '',
+    phoneNumber: ''
+  })
   const [loader, setLoader] = useState(false)
   const [errorEmail, setErrorEmail] = useState('')
+  const [order, setOrder] = useState('')
 
   const containerStyle = {
     textAlign: 'center',
@@ -26,7 +34,7 @@ const CheckoutForm = () => {
 
     if (user.email === user.emailRepeated) {
       setLoader(true)
-      const order = {
+      const newOrder = {
         buyer: user,
         items: cart,
         total: totalCartValue(),
@@ -35,10 +43,10 @@ const CheckoutForm = () => {
 
       const ordersCollection = collection(db, 'orders')
 
-      addDoc(ordersCollection, order)
+      addDoc(ordersCollection, newOrder)
         .then(result => {
+          setOrder(result.id)
           clearCart()
-          console.log(order, result.id)
         })
         .catch(error => console.error(error))
         .finally(setLoader(false))
@@ -64,72 +72,78 @@ const CheckoutForm = () => {
         <Spinner animation='border' className='m-auto' />
       </Container>
       )
-    : cart.length === 0
+    : order !== ''
       ? (
-        <div style={containerStyle}>
-          <h3>Todavia no hay productos en el carrito</h3>
-          <h3>
-            <Link className='text-decoration-none' to='/'>
-              Click Aquí
-            </Link>{' '}
-            para agregar
-          </h3>
-        </div>
+        <ShowOrderNumber>{order}</ShowOrderNumber>
         )
-      : (
-        <Container className='w-50'>
-          <Form onSubmit={handleSumbit}>
-            <Form.Group className='mb-3' controlId='formBasicEmail'>
-              <Form.Label>Email</Form.Label>
-              <Form.Control
-                type='email'
-                placeholder='Ingresar email'
-                onChange={handleChangesInputs}
-                name='email'
-              />
-              <Form.Label>Repetir email</Form.Label>
-              <Form.Control
-                className={errorEmail}
-                type='email'
-                placeholder='Repetir email'
-                onChange={handleChangesInputs}
-                name='emailRepeated'
-              />
-            </Form.Group>
+      : cart.length === 0
+        ? (
+          <div style={containerStyle}>
+            <h3>Todavia no hay productos en el carrito</h3>
+            <h3>
+              <Link className='text-decoration-none' to='/'>Click Aquí</Link> para agregar
+            </h3>
+          </div>
+          )
+        : (
+          <Container className='w-50'>
+            <Form onSubmit={handleSumbit}>
+              <Form.Group className='mb-3' controlId='formBasicEmail'>
+                <Form.Label>Email</Form.Label>
+                <Form.Control
+                  type='email'
+                  placeholder='Ingresar email'
+                  onChange={handleChangesInputs}
+                  name='email'
+                  value={user.email}
+                />
+                <Form.Label>Repetir email</Form.Label>
+                <Form.Control
+                  className={errorEmail}
+                  type='email'
+                  placeholder='Repetir email'
+                  onChange={handleChangesInputs}
+                  name='emailRepeated'
+                  value={user.emailRepeated}
+                />
+              </Form.Group>
 
-            <Form.Group className='mb-3' controlId='formBasicName'>
-              <Form.Label>Nombre</Form.Label>
-              <Form.Control
-                type='text'
-                placeholder='Nombre'
-                name='name'
-                onChange={handleChangesInputs}
-              />
-            </Form.Group>
-            <Form.Group className='mb-3' controlId='formBasicLastName'>
-              <Form.Label>Apellido</Form.Label>
-              <Form.Control
-                type='text'
-                placeholder='Apellido'
-                name='lastName'
-                onChange={handleChangesInputs}
-              />
-            </Form.Group>
-            <Form.Group className='mb-3' controlId='formBasicPhoneNumber'>
-              <Form.Label>Telefono</Form.Label>
-              <Form.Control
-                type='tel'
-                placeholder='Telefono'
-                name='phoneNumber'
-                onChange={handleChangesInputs}
-              />
-            </Form.Group>
-            <Button variant='primary' type='submit'>
-              Enviar orden
-            </Button>
-          </Form>
-        </Container>
-        )
+              <Form.Group className='mb-3' controlId='formBasicName'>
+                <Form.Label>Nombre</Form.Label>
+                <Form.Control
+                  type='text'
+                  placeholder='Nombre'
+                  name='name'
+                  onChange={handleChangesInputs}
+                  value={user.name}
+                />
+              </Form.Group>
+              <Form.Group className='mb-3' controlId='formBasicLastName'>
+                <Form.Label>Apellido</Form.Label>
+                <Form.Control
+                  type='text'
+                  placeholder='Apellido'
+                  name='lastName'
+                  onChange={handleChangesInputs}
+                  value={user.lastName}
+                />
+              </Form.Group>
+              <Form.Group className='mb-3' controlId='formBasicPhoneNumber'>
+                <Form.Label>Telefono</Form.Label>
+                <Form.Control
+                  type='text'
+                  placeholder='Telefono'
+                  name='phoneNumber'
+                  onChange={handleChangesInputs}
+                  value={user.phoneNumber}
+                />
+              </Form.Group>
+              <Button variant='primary' type='submit'>
+                Enviar orden
+              </Button>
+            </Form>
+          </Container>
+          )
 }
 
 export default CheckoutForm

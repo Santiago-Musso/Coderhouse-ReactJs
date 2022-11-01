@@ -20,7 +20,7 @@ const Cart = () => {
       <div style={containerStyle}>
         <h3>Todavia no hay productos en el carrito</h3>
         <h3>
-          <Link className='text-decoration-none' to='/'>Click Aquí</Link>{' '} para agregar
+          <Link className='text-decoration-none' to='/'>Click Aquí</Link> para agregar
         </h3>
       </div>
       )

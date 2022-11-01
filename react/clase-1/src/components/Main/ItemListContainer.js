@@ -6,12 +6,14 @@ import SearchBar from './SearchBar'
 import { useParams } from 'react-router-dom'
 import { collection, getDocs, query, where } from 'firebase/firestore'
 import { db } from '../../services/firebaseConfig'
+import ErrorNotFound from '../NotFound/ErrorNotFound'
 
 const ItemListContainer = () => {
   const { category } = useParams()
   const [items, setItems] = useState([])
   const [categories, setCategories] = useState([])
   const [loader, setLoader] = useState(true)
+  const [error, setError] = useState(false)
 
   const handleSearchBar = e => {
     document.querySelectorAll('.card').forEach(product => {
@@ -36,9 +38,14 @@ const ItemListContainer = () => {
           ...product.data()
         }
       })
-      if (category === undefined) setCategories([...new Set(products.map(product => product.category))])
-      setItems(products)
-      setLoader(false)
+      if (products.length !== 0) {
+        if (category === undefined) { setCategories([...new Set(products.map(product => product.category))]) }
+        setItems(products)
+        setLoader(false)
+      } else {
+        setError(true)
+        setLoader(false)
+      }
     })
 
     return () => setLoader(true)
@@ -53,15 +60,19 @@ const ItemListContainer = () => {
         <Spinner animation='border' className='m-auto' />
       </Container>
       )
-    : (
-      <Container>
-        <SearchBar onChangeEvent={handleSearchBar} />
-        <CategoryBar categories={categories} />
-        <Row>
-          <ItemList products={items} />
-        </Row>
-      </Container>
-      )
+    : error
+      ? (
+        <ErrorNotFound />
+        )
+      : (
+        <Container>
+          <SearchBar onChangeEvent={handleSearchBar} />
+          <CategoryBar categories={categories} />
+          <Row>
+            <ItemList products={items} />
+          </Row>
+        </Container>
+        )
 }
 
 export default ItemListContainer

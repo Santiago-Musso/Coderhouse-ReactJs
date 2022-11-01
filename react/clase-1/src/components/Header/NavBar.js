@@ -13,11 +13,12 @@ const NavBar = ({ regret }) => {
             alt='Logo Heladeria Trapani'
           />
         </Link>
-        <Col sm='8' className='text-center'>
+        <Col sm='6' className='text-center'>
           <h6>Bienvenido {regret}!</h6>
         </Col>
         <Col>
-          <Navbar.Brand>
+          <Navbar.Brand className='d-flex justify-content-around'>
+            <Link to='/order' className='text-decoration-none text-dark'>Buscar pedido</Link>
             <Link to='/cart' className='text-decoration-none text-dark'>
               <CartWidget /> Carrito
             </Link>

@@ -6,21 +6,29 @@ import ItemDetail from './ItemDetail'
 import { ToastContainer } from 'react-toastify'
 import { Container, Spinner } from 'react-bootstrap'
 import 'react-toastify/dist/ReactToastify.css'
+import ErrorNotFound from '../NotFound/ErrorNotFound'
 
 const ItemDetailContainer = () => {
   const { id } = useParams()
   const [product, setProduct] = useState({})
   const [loader, setLoader] = useState(true)
+  const [error, setError] = useState(false)
 
   useEffect(() => {
     const collectionProd = collection(db, 'products')
     const docRef = doc(collectionProd, id)
     getDoc(docRef).then(product => {
-      setProduct({
-        id: product.id,
-        ...product.data()
-      })
-      setLoader(false)
+      const prod = product.data()
+      if (prod) {
+        setProduct({
+          id: product.id,
+          ...prod
+        })
+        setLoader(false)
+      } else {
+        setError(true)
+        setLoader(false)
+      }
     })
 
     return () => setLoader(true)
@@ -35,12 +43,16 @@ const ItemDetailContainer = () => {
         <Spinner animation='border' className='m-auto' />
       </Container>
       )
-    : (
-      <>
-        <ItemDetail product={product} />
-        <ToastContainer />
-      </>
-      )
+    : error
+      ? (
+        <ErrorNotFound />
+        )
+      : (
+        <>
+          <ItemDetail product={product} />
+          <ToastContainer />
+        </>
+        )
 }
 
 export default ItemDetailContainer
