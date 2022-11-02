@@ -52,7 +52,7 @@ const ShowCheckoutOrder = () => {
         <Container className='w-50'>
           <h3>Datos de la orden</h3>
           <h6>
-            Nombre: {order.buyer.name} Apellido: {order.buyer.lastName}
+            Nombre: {order.buyer.name}
           </h6>
           <h6>Fecha y hora: {order.date}</h6>
           <h6>Numero de orden: {order.id}</h6>

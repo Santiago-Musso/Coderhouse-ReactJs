@@ -11,6 +11,7 @@ import CheckoutForm from './components/Form/CheckoutForm'
 import Admin from './components/Admin/Admin'
 import ShowCheckoutOrder from './components/Order/ShowCheckoutOrder'
 import SearchOrder from './components/Order/SearchOrder'
+import { Container, Row, Col } from 'react-bootstrap'
 
 function App () {
   const REGRET = 'Coderhousers'
@@ -18,18 +19,24 @@ function App () {
   return (
     <Provider>
       <BrowserRouter>
-        <NavBar regret={REGRET} />
-        <Routes>
-          <Route path='/' element={<ItemListContainer />} />
-          <Route path='/category/:category' element={<ItemListContainer />} />
-          <Route path='/item/:id' element={<ItemDetailContainer />} />
-          <Route path='/cart' element={<Cart />} />
-          <Route path='/checkout' element={<CheckoutForm />} />
-          <Route path='/admin' element={<Admin />} />
-          <Route path='/order/:id' element={<ShowCheckoutOrder />} />
-          <Route path='/order' element={<SearchOrder />} />
-        </Routes>
-        <Footer />
+        <Container fluid>
+          <Row> <Col><NavBar regret={REGRET} /></Col></Row>
+          <Row>
+            <Col>
+              <Routes>
+                <Route exact path='/' element={<ItemListContainer />} />
+                <Route exact path='/category/:category' element={<ItemListContainer />} />
+                <Route exact path='/item/:id' element={<ItemDetailContainer />} />
+                <Route exact path='/cart' element={<Cart />} />
+                <Route exact path='/checkout' element={<CheckoutForm />} />
+                <Route exact path='/admin' element={<Admin />} />
+                <Route exact path='/order/:id' element={<ShowCheckoutOrder />} />
+                <Route exact path='/order' element={<SearchOrder />} />
+              </Routes>
+            </Col>
+          </Row>
+          <Row><Col><Footer /></Col></Row>
+        </Container>
       </BrowserRouter>
     </Provider>
   )

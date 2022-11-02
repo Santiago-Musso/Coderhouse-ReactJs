@@ -13,6 +13,7 @@ const ShowOrderNumber = ({ children }) => {
   return (
     <div style={containerStyle}>
       <h3>La orden se completo correctamente!</h3>
+      <h5>Numero de orden: {children}</h5>
       <h3><Link className='text-decoration-none' to={`/order/${children}`}>Click Aquí </Link> para ver tu pedido</h3>
     </div>
   )

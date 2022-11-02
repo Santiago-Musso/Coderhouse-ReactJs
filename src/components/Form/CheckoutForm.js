@@ -139,7 +139,7 @@ const CheckoutForm = () => {
                 />
               </Form.Group>
               <Button variant='primary' type='submit'>
-                Enviar orden
+                Realizar compra
               </Button>
             </Form>
           </Container>

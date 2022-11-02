@@ -3,9 +3,7 @@ import { Container } from 'react-bootstrap'
 const Footer = () => {
   const footerStyle = {
     display: 'flex',
-    justifyContent: 'center',
-    position: 'absolute',
-    bottom: '0px'
+    justifyContent: 'center'
   }
 
   return (

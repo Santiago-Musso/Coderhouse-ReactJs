@@ -18,7 +18,7 @@ const AdminTable = () => {
       })
       setItems(products)
     })
-  }, [items])
+  }, [])
 
   return (
     <table className='table'>

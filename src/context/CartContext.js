@@ -43,6 +43,16 @@ const Provider = ({ children }) => {
   }
   const clearCart = () => setCart([])
 
+  const cartQuantityItems = () => {
+    let quantityItems = 0
+
+    cart.forEach(prod => {
+      quantityItems += prod.amount
+    })
+
+    return quantityItems
+  }
+
   return (
     <CartContext.Provider
       value={{
@@ -51,7 +61,8 @@ const Provider = ({ children }) => {
         eraseProduct,
         getQuantityProduct,
         totalCartValue,
-        clearCart
+        clearCart,
+        cartQuantityItems
       }}
     >
       {children}

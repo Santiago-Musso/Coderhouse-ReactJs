@@ -23,7 +23,8 @@ const Admin = () => {
     item[changedValue] = e.target.value
     setNewItem({ ...newItem, ...item })
   }
-  const addNewProduct = async () => {
+
+  const addNewProduct = () => {
     const collectionProduct = collection(db, 'products')
     const collectionCategories = collection(db, 'categories')
     const q = query(collectionCategories, where('name', '==', newItem.category))
@@ -33,7 +34,6 @@ const Admin = () => {
 
       if (category === 0) addDoc(collectionCategories, { name: newItem.category })
     })
-
     addDoc(collectionProduct, newItem).then(() => {
       setNewItem({
         name: '',
@@ -55,6 +55,7 @@ const Admin = () => {
       })
     })
   }
+
   return (
     <Container className='w-75'>
       <div className='input-group m-2'>
