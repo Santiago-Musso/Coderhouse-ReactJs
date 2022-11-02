@@ -131,7 +131,7 @@ const CheckoutForm = () => {
               <Form.Group className='mb-3' controlId='formBasicPhoneNumber'>
                 <Form.Label>Telefono</Form.Label>
                 <Form.Control
-                  type='text'
+                  type='number'
                   placeholder='Telefono'
                   name='phoneNumber'
                   onChange={handleChangesInputs}
