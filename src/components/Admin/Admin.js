@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Container, Form } from 'react-bootstrap'
 import { ToastContainer, toast } from 'react-toastify'
 import AdminTable from './AdminTable'
-import { addDoc, collection, getDocs, query, where } from 'firebase/firestore'
+import { addDoc, collection } from 'firebase/firestore'
 import { db } from '../../services/firebaseConfig'
 import { Link } from 'react-router-dom'
 
@@ -26,14 +26,7 @@ const Admin = () => {
 
   const addNewProduct = () => {
     const collectionProduct = collection(db, 'products')
-    const collectionCategories = collection(db, 'categories')
-    const q = query(collectionCategories, where('name', '==', newItem.category))
 
-    getDocs(q).then(data => {
-      const category = data.docs.length
-
-      if (category === 0) addDoc(collectionCategories, { name: newItem.category })
-    })
     addDoc(collectionProduct, newItem).then(() => {
       setNewItem({
         name: '',
